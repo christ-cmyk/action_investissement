@@ -9,8 +9,10 @@ action_investissement/
 ├── data/                   # Dossier contenant les jeux de données d'actions
 ├── results/                # Dossier contenant les résultats des exécutions
 ├── src/                    # Code source du projet
+│   ├── __init__.py         # Fichier d'initialisation du package
 │   ├── brute_force.py      # Implémentation de la solution par force brute
 │   ├── optimisation.py     # Implémentation de la solution optimisée
+│   ├── menu.py             # Interface utilisateur en mode console
 │   ├── utils.py            # Fonctions utilitaires (lecture/écriture de fichiers)
 │   └── main.py             # Point d'entrée principal
 ├── requirements.txt        # Dépendances du projet
@@ -21,23 +23,22 @@ action_investissement/
 
 1. Assurez-vous d'avoir Python 3.8 ou supérieur installé
 2. Clonez ce dépôt
-3. Installez les dépendances :
-
-```bash
-pip install -r requirements.txt
-```
+3. Créez et activez un environnement virtuel (recommandé) :
+   ```bash
+   python -m venv venv
+   .\venv\Scripts\activate  # Sur Windows
+   source venv/bin/activate   # Sur macOS/Linux
+   ```
+4. Installez les dépendances :
+   ```bash
+   pip install -r requirements.txt
+   ```
 
 ## Utilisation
 
-### Générer un jeu de données de test
+### Mode Ligne de Commande
 
-```bash
-python -c "from src.utils import generate_test_data; generate_test_data(n_actions=20, output_file='data/test_dataset.csv')"
-```
-
-### Exécuter l'optimisation
-
-Pour exécuter les deux algorithmes (force brute et optimisé) :
+Pour exécuter avec des paramètres spécifiques :
 
 ```bash
 python src/main.py data/test_dataset.csv
@@ -48,24 +49,35 @@ Options disponibles :
 - `--algo` : Choisir l'algorithme à exécuter (`brute`, `optimized` ou `all` par défaut)
 - `--output-dir` : Définir le répertoire de sortie (par défaut: `results`)
 
-Exemple avec options :
+### Mode Interactif (Recommandé)
 
+Lancez simplement :
 ```bash
-python src/main.py data/test_dataset.csv --budget 300000 --algo optimized --output-dir my_results
+python src/main.py
 ```
+
+Le menu interactif vous permettra de :
+1. Choisir entre l'algorithme de force brute, optimisé ou les deux
+2. Sélectionner le fichier de données à analyser
+3. Voir les résultats détaillés
+4. Changer de fichier de données
+5. Quitter l'application
 
 ### Format des fichiers d'entrée
 
-Le fichier d'entrée doit être un CSV sans en-tête avec les colonnes suivantes :
-1. Identifiant de l'action (chaîne)
-2. Coût de l'action en F CFA (nombre)
-3. Pourcentage de profit après 2 ans (nombre)
+Le fichier d'entrée doit être un CSV avec les colonnes suivantes :
+- Séparateur : point-virgule (;) ou virgule (,)
+- Pas d'en-tête requis
+- Colonnes :
+  1. Identifiant de l'action (chaîne)
+  2. Coût de l'action en F CFA (nombre)
+  3. Pourcentage de profit après 2 ans (nombre ou pourcentage avec %)
 
 Exemple :
 ```
-Share-PLLK,1994,0.12
-Share-ECAQ,3166,0.08
-Share-IXCI,2632,0.15
+Action-1;20000;5%
+Action-2;30000;10
+Action-3;50000;15.5
 ```
 
 ## Algorithmes Implémentés
@@ -73,31 +85,31 @@ Share-IXCI,2632,0.15
 ### 1. Force Brute (`brute_force.py`)
 - Explore toutes les combinaisons possibles d'actions
 - Garantit de trouver la solution optimale
-- Complexité exponentielle : O(2^n) où n est le nombre d'actions
-- Ne convient que pour un petit nombre d'actions (n < 25)
+- Complexité exponentielle : O(2^n)
+- Recommandé pour n < 20 actions
 
 ### 2. Algorithme Optimisé (`optimisation.py`)
-- Utilise une approche gloutonne avec un filtre de profit minimum
-- Beaucoup plus rapide que la force brute
-- Ne garantit pas toujours la solution optimale mais donne de bons résultats en pratique
-- Complexité : O(n log n) pour le tri + O(n) pour la sélection
+- Approche gloutonne avec tri par ratio profit/coût
+- Solution quasi-optimale en temps raisonnable
+- Complexité : O(n log n)
+- Fonctionne bien même avec un grand nombre d'actions
 
 ## Résultats
 
-Les résultats sont sauvegardés dans le dossier `results/` (ou le dossier spécifié) avec les formats suivants :
-- `brute_<dataset>_result.txt` : Résultats de l'algorithme de force brute
+Les résultats sont sauvegardés dans le dossier `results/` avec les formats suivants :
+- `brute_<dataset>_result.txt` : Résultats de la force brute
 - `optimized_<dataset>_result.txt` : Résultats de l'algorithme optimisé
 
-Chaque fichier contient :
-- La liste des actions sélectionnées avec leur coût et profit
-- Le coût total de l'investissement
-- Le profit total après 2 ans
-- Le nombre d'actions sélectionnées
+Chaque rapport inclut :
+- Liste des actions sélectionnées avec coût et profit
+- Coût total et profit total
+- Temps d'exécution
+- Nombre d'actions sélectionnées
 
 ## Auteur
 
-[Votre nom]
+Christophe M.
 
 ## Licence
 
-Ce projet est sous licence MIT - voir le fichier [LICENSE](LICENSE) pour plus de détails.
+Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
