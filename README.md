@@ -6,8 +6,9 @@ Ce projet implémente différentes stratégies pour optimiser un portefeuille d'
 
 ```
 action_investissement/
-├── data/                   # Dossier contenant les jeux de données d'actions
+├── data/                   # Dossiers contenant les jeux de données d'actions
 ├── results/                # Dossier contenant les résultats des exécutions
+├── slide/                  # Présentation du projet (PDF)
 ├── src/                    # Code source du projet
 │   ├── __init__.py         # Fichier d'initialisation du package
 │   ├── brute_force.py      # Implémentation de la solution par force brute
@@ -105,6 +106,14 @@ Chaque rapport inclut :
 - Coût total et profit total
 - Temps d'exécution
 - Nombre d'actions sélectionnées
+
+## Documentation Additionnelle
+
+Le dossier `slide/` contient une présentation détaillée du projet au format PDF, incluant :
+- L'analyse du problème
+- Les algorithmes implémentés
+- Les résultats et analyses
+- Les perspectives d'amélioration
 
 ## Auteur
 
