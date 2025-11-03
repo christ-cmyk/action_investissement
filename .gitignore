@@ -28,8 +28,10 @@ env/
 
 # Fichiers de sortie
 results/
-*.txt
+# *.txt
 *.csv
+!requirements.txt
+!README.md
 
 # IDE
 .vscode/
